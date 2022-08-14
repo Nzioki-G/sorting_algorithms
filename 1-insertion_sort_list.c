@@ -11,7 +11,7 @@ void insertion_sort_list(listint_t **list)
 	listint_t *current = *list;
 
 	/* if list is empty|has 1 element */
-	if (!current || !current->next)
+	if (!*list || !current || !current->next)
 		return;
 
 	/* start from 2nd element */
