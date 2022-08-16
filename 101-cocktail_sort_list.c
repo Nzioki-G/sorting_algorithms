@@ -3,50 +3,51 @@
 /**
  * cocktail_sort_list - sorts a list using the cocktail sort technique
  * @list: pointer to a (head of) list to sort
- * Return: nothing
  */
 void cocktail_sort_list(listint_t **list)
 {
-	listint_t *current = *list, *min = NULL, *max = NULL;
+	listint_t *current = *list;
 	int swaps = 1;
 
 	if (!*list || !(*list)->next)
 		return;
-
-	while (swaps)
-	{
+	do {
 		swaps = 0;
 		current = *list;
 		while (current->next)
 		{
-			min = current->next;
-			if (current->n > min->n)
+			if (current->n > current->next->n)
 			{
-				swap(current, min);
+				swap(current, current->next);
 				swaps++;
-				if (!min->prev)
-					*list = min;
-				current = current->prev;
 				print_list(*list);
+				if (!current->prev)
+					*list = current->next;
+				current = current->prev;
 			}
 			current = current->next;
 		}
+		if (!swaps)
+			break;
+		swaps = 0;
 		while (current->prev)
 		{
-			max = current->prev;
-			if (current->n < max->n)
+			if (current->n < current->prev->n)
 			{
-				swap(current, max);
+				swap(current->prev, current);
 				swaps++;
-				current = current->next;
+				if (!current->prev)
+					*list = current;
 				print_list(*list);
+				current = current->next;
 			}
 			current = current->prev;
 		}
 		if (!swaps)
 			break;
-	}
+	} while (swaps);
 }
+
 
 /**
  * swap - swaps 2 nodes
