@@ -1,7 +1,9 @@
 #include "sort.h"
 
 /**
- * selection_sort - 
+ * selection_sort - least goes to idx 0 by swapping. Next goes to idx 1...
+ * This one's time complexity NEVER improves. It will always search for the
+ * least in the remaining elements.
  * @array: the array of integers to sort
  * @size: the length of this array
  */
