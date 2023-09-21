@@ -18,17 +18,9 @@ void insertion_sort_list(listint_t **list)
 		key = current;
 		while (current->prev && (current->prev->n > current->n))
 		{
-			/* inserting at head
-			if (current->prev->prev == NULL)
-			{
-				*list = current;
-				print_list(current);
-				print_list(*list);
-			}
-			else
-			{*/
 			/* swap */
 			swap_nodes(current->prev, current);
+			/* reseting node at head */
 			if (current->prev == NULL)
 				*list = current;
 			print_list(*list);
