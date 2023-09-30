@@ -30,3 +30,21 @@ void insertion_sort_list(listint_t **list)
 		current = key->next;
 	}
 }
+
+/**
+ * swap_nodes - swaps 2 doubly-linked-list nodes
+ * @node_a: the left node
+ * @node_b: the right node
+*/
+void swap_nodes(listint_t *node_a, listint_t *node_b)
+{
+	node_a->next = node_b->next;
+	node_b->prev = node_a->prev;
+	if (node_a->prev)
+		node_a->prev->next = node_b;
+	if (node_b->next)
+		node_b->next->prev = node_a;
+
+	node_a->prev = node_b;
+	node_b->next = node_a;
+}
