@@ -30,6 +30,7 @@ void cocktail_sort_list(listint_t **list)
 		}
 		if (is_sorted)
 			break;
+		is_sorted = 1;
 		while (current->prev) /* check backwards */
 		{
 			if (current->n < current->prev->n)
