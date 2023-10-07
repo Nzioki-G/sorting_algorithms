@@ -1,19 +1,6 @@
 #include "sort.h"
 
 /**
- * power - gets the power of a number
- * @x: the base
- * @y: the exponent
- * Return: x ^ y
- */
-int power(int x, int y)
-{
-	while (y-- > 1)
-		x *= x;
-	return (x);
-}
-
-/**
  * getNumAtPlace - get the integer at place value
  * @number: the whole number
  * @place: the place value
@@ -21,9 +8,10 @@ int power(int x, int y)
  */
 int getNumAtPlace(int number, int place)
 {
-	int value;
+	int value = 10;
 
-	value = power(10, place);
+	while (place-- > 1)
+		value *= 10;
 	return (number % value / (value / 10));
 }
 
@@ -83,6 +71,31 @@ void reverse_array(int *array, size_t size)
 }
 
 /**
+ * populate_count - populate @count_array based on place value of
+ * the numbers in @array
+ * @array: the original array
+ * @size: length of @array
+ * @count_array: the count array
+ * @place: current place value to consider in each element
+ */
+void populate_count(int *array, size_t size, int *count_array, int place)
+{
+	size_t idx, position;
+
+	for (idx = 0; idx < 10; idx++) /* init with 0s */
+		count_array[idx] = 0;
+
+	for (idx = 0; idx < size; idx++) /* count frequency */
+	{
+		position = getNumAtPlace(array[idx], place);
+		count_array[position] += 1;
+	}
+
+	for (idx = 1; idx < 10; idx++) /* cumulative frequency */
+		count_array[idx] += count_array[idx - 1];
+}
+
+/**
  * radix_sort - use count sort on each place value from least significant
  * LSD radix sort. This way the count array will always be length 10
  * @array: the array to sort containing numbers >= 0
@@ -104,17 +117,7 @@ void radix_sort(int *array, size_t size)
 	/* from LSD sort using count sort */
 	while (place <= place_value)
 	{
-		for (idx = 0; idx < 10; idx++) /* init with 0s */
-			count_array[idx] = 0;
-
-		for (idx = 0; idx < size; idx++) /* count frequency */
-		{
-			position = getNumAtPlace(array[idx], place);
-			count_array[position] += 1;
-		}
-
-		for (idx = 1; idx < 10; idx++) /* cumulative frequency */
-			count_array[idx] += count_array[idx - 1];
+		populate_count(array, size, count_array, place);
 
 		reverse_array(array, size);
 		/* sort according to frequency */
@@ -130,4 +133,6 @@ void radix_sort(int *array, size_t size)
 
 		place++;
 	}
+	free(count_array);
+	free(result_array);
 }
